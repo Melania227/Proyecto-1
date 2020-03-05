@@ -10,9 +10,7 @@ public class Lector : MonoBehaviour
 {
     public DatosDelJuego datos;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Leer()
     {
         using (StreamReader sr = File.OpenText("Cat.txt"))
         {
@@ -20,16 +18,21 @@ public class Lector : MonoBehaviour
             s = sr.ReadLine();
             this.Posiciones(s);
             sr.ReadLine();
-            for (int n= 0; n<datos.getX; n++)
+            int largoX = datos.getX();
+            int largoY = datos.getY();
+            this.datos.addListX(new List<int>());
+            for (int n= 0; n< largoX; n++)
             {
-                Pista(n, s, 'x');
                 s = sr.ReadLine();
+                Pista(s, 'x');
+
             }
+            this.datos.addListY(new List<int>());
             sr.ReadLine();
-            for (int n = 0; n < datos.getY; n++)
+            for (int n = 0; n < largoY; n++)
             {
-                Pista(n, s, 'y');
                 s = sr.ReadLine();
+                Pista(s, 'y');
             }
 
         }
@@ -37,26 +40,6 @@ public class Lector : MonoBehaviour
     }
 
     public void Posiciones(string lineaActual)
-    {
-        int largo = lineaActual.Length;
-        string res = "";
-        for (int n=0; n<largo; n++) {
-            if (lineaActual[n] != ',')
-            {
-                res += lineaActual[n];
-            }
-            else
-            {
-                this.datos.setX(Convert.ToInt32(res));
-                res = "";
-                n++;
-            }
-        }
-        this.datos.setY(Convert.ToInt32(res));
-
-    }
-
-    public void Pista(int linea, string lineaActual, char tipo)
     {
         int largo = lineaActual.Length;
         string res = "";
@@ -68,11 +51,40 @@ public class Lector : MonoBehaviour
             }
             else
             {
+                this.datos.setX(System.Convert.ToInt32(res));
                 res = "";
                 n++;
             }
         }
+        this.datos.setY(System.Convert.ToInt32(res));
+
     }
 
+    public void Pista(string lineaActual, char tipo)
+    {
+        int largo = lineaActual.Length;
+        List<int> lista = new List<int>();
+        string res = "";
+        for (int n = 0; n < largo; n++)
+        {
+            if (lineaActual[n] != ',')
+            {
+                res += lineaActual[n];
+
+            }
+            else
+            {
+                //print(res);
+                lista.Add(System.Convert.ToInt32(res));
+                res = "";
+                n++;
+            }
+        }
+        //print(res);
+        lista.Add(System.Convert.ToInt32(res));
+        if (tipo == 'x') this.datos.addListX(lista);
+        else this.datos.addListY(lista);
+
+    }
 
 }

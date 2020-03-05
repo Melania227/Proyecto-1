@@ -6,7 +6,8 @@ public class DatosDelJuego : MonoBehaviour
 {
     private int x;
     private int y;
-    private List<Estructura> Pistas = new List<Estructura>();
+    private List<List<int>> PistasX = new List<List<int>>();
+    private List<List<int>> PistasY= new List<List<int>>();
 
     public DatosDelJuego() {
         x = y = 0;
@@ -27,20 +28,29 @@ public class DatosDelJuego : MonoBehaviour
     public void setX(int x) {
         this.x = x;
     }
+    
     public void setY(int y)
     {
         this.y = y;
     }
+    
     public int getX()
     {
         return this.x;
     }
+    
     public int getY()
     {
         return this.y;
     }
-    public void addList(Estructura estruc)
-    {
-        this.Pistas.Add(estruc);
+    
+    public void addListX(List<int> l) {
+        PistasX.Add(l);
     }
+    
+    public void addListY(List<int> l)
+    {
+        PistasY.Add(l);
+    }
+
 }
