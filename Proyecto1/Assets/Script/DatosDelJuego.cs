@@ -53,4 +53,13 @@ public class DatosDelJuego : MonoBehaviour
         PistasY.Add(l);
     }
 
+    public List<List<int>> getPistasX() {
+        return PistasX;
+    }
+
+    public List<List<int>> getPistasY()
+    {
+        return PistasY;
+    }
+
 }
