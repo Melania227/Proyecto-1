@@ -192,8 +192,8 @@ public class Juego : MonoBehaviour
     {
         lector.Leer();
         datos = lector.datos;
-        datos.setMatrizLogica();
-        impresionMatriz(datos.getMatrizLogica());
+        //datos.setMatrizLogica();
+        //impresionMatriz(datos.getMatrizLogica());
     }
 
     // Update is called once per frame
