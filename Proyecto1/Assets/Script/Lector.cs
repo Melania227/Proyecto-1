@@ -17,22 +17,23 @@ public class Lector : MonoBehaviour
             string s = String.Empty;
             s = sr.ReadLine();
             this.Posiciones(s);
-            sr.ReadLine();
+            s = sr.ReadLine();
             int largoX = datos.getX();
             int largoY = datos.getY();
-            this.datos.addListY(new List<int>());
-            for (int n= 0; n< largoY; n++)
-            {
-                s = sr.ReadLine();
-                Pista(s, 'y');
-
-            }
             this.datos.addListX(new List<int>());
-            sr.ReadLine();
             for (int n = 0; n < largoX; n++)
             {
                 s = sr.ReadLine();
                 Pista(s, 'x');
+            }
+            sr.ReadLine();
+            this.datos.addListY(new List<int>());
+            for (int n= 0; n< largoY; n++)
+            {
+                s = sr.ReadLine();
+                //print(s + "*****");
+                Pista(s, 'y');
+
             }
 
         }
@@ -69,7 +70,9 @@ public class Lector : MonoBehaviour
         {
             if (lineaActual[n] != ',')
             {
+                
                 res += lineaActual[n];
+                //print(lineaActual[n]);
 
             }
             else
