@@ -20,20 +20,21 @@ public class Lector : MonoBehaviour
             sr.ReadLine();
             int largoX = datos.getX();
             int largoY = datos.getY();
-            this.datos.addListX(new List<int>());
-            for (int n= 0; n< largoX; n++)
-            {
-                s = sr.ReadLine();
-                Pista(s, 'x');
-
-            }
             this.datos.addListY(new List<int>());
-            sr.ReadLine();
-            for (int n = 0; n < largoY; n++)
+            for (int n= 0; n< largoY; n++)
             {
                 s = sr.ReadLine();
                 Pista(s, 'y');
+
             }
+            this.datos.addListX(new List<int>());
+            sr.ReadLine();
+            for (int n = 0; n < largoX; n++)
+            {
+                s = sr.ReadLine();
+                Pista(s, 'x');
+            }
+
         }
 
     }

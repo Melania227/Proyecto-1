@@ -2,7 +2,7 @@
 FILAS
 2
 1
-3
+2
 COLUMNAS
 2
-1
+2
