@@ -8,6 +8,7 @@ public class DatosDelJuego : MonoBehaviour
     private int y;
     private List<List<int>> PistasX = new List<List<int>>();
     private List<List<int>> PistasY= new List<List<int>>();
+    private int[,] matrizLogica;
 
     public DatosDelJuego() {
         x = y = 0;
@@ -60,6 +61,20 @@ public class DatosDelJuego : MonoBehaviour
     public List<List<int>> getPistasY()
     {
         return PistasY;
+    }
+
+    public int[,] getMatrizLogica() {
+        return matrizLogica;
+    }
+
+    public void setMatrizLogica()
+    {
+        this.matrizLogica = new int[x, y];
+        for (int i = 0; i < x; i++){
+            for (int j = 0; j < y; j++) {
+                matrizLogica[i, j] = 0;
+            }
+        }
     }
 
 }
