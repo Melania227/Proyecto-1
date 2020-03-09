@@ -7,128 +7,6 @@ public class Juego : MonoBehaviour
     public Lector lector;
     public DatosDelJuego datos;
 
-    /* bool verificarCasilla(int filaAct_Aux, int columnaAct_Aux, int columnaMax_Aux, int filaMax_Aux, int[,] matrizLogica, List<List<int>> pistaFilas, List<List<int>> pistaColumnas) {
-         List<int> Columna = new List<int>();
-         List<int> Fila = new List<int>();
-         Columna = genereArrayColumna(Columna, filaMax_Aux, columnaAct_Aux, matrizLogica);
-         Fila = genereArrayFila(Fila, columnaMax_Aux, filaAct_Aux, matrizLogica);
-         if (verificarFila(filaAct_Aux, columnaAct_Aux, columnaMax_Aux, Fila, pistaFilas)) {
-             if (verificarColumna(filaAct_Aux, columnaAct_Aux, filaMax_Aux, Columna, pistaFilas)) {
-                 return true;
-             }
-         }
-         return false;
-     }
-
-     List<int> genereArrayFila(List<int> Fila, int columnaMax_Aux, int filaAct_Aux, int[,] matrizLogica) {
-         for (int i = 0; i < columnaMax_Aux; i++) {
-             Fila[i] = matrizLogica[filaAct_Aux - 1, i];
-         }
-         return Fila;
-     }
-
-     List<int> genereArrayColumna(List<int> Columna, int filaMax_Aux, int columnaAct_Aux, int[,] matrizLogica)
-     {
-         for (int i = 0; i < filaMax_Aux; i++)
-         {
-             Columna[i] = matrizLogica[i, columnaAct_Aux - 1];
-         }
-         return Columna;
-     }
-
-
-     bool verificarFila(int filaAct_Aux, int columnaAct_Aux, int columnaMax_Aux, List<int> Fila, List<List<int>> pistaFilas) {
-         int contadorDe1s = 0;
-         if (pistaFilas[filaAct_Aux][0] == 0)
-         {
-             return false;
-         }
-         else if (pistaFilas[filaAct_Aux].Count == 1)
-         {
-             for (int j = 0; j < columnaMax_Aux; j++)
-             {
-                 if (Fila[j] == 1)
-                 {
-                     contadorDe1s++;
-                 }
-             }
-             if (pistaFilas[filaAct_Aux - 1][0] == contadorDe1s)
-             {
-                 return false;
-             }
-         }
-         else
-         {
-             for (int i = 0; i < pistaFilas[filaAct_Aux][0]; i++) //aca quede :(
-             {
-                 if (true)
-                 {
-                     return true;
-                 }
-             }
-         }
-     }
-
-
-     bool verificarColumna(int filaAct_Aux, int columnaAct_Aux, int filaMax_Aux, List<int> Columna, List<List<int>> pistaColumnas) {
-
-
-     }
-
-     int[,] marcar(int[,] matrizLogica) {
-         int columnaMax = datos.getY();
-         int filaMax = datos.getX();
-         int columnaAct = 1;
-         int filaAct = 1;
-         List<List<int>> pistasFilas = datos.getPistasY();
-         List<List<int>> pistasColumnas = datos.getPistasX();
-         matrizLogica = marcar_Aux(matrizLogica, filaMax, columnaMax, filaAct, columnaAct, pistasFilas, pistasColumnas);
-         return matrizLogica;
-     }
-
-     int[,] marcar_Aux(int[,] matrizLogica, int filaMax_Aux, int columnaMax_Aux, int filaAct_Aux, int columnaAct_Aux, List<List<int>> pistaFilas, List<List<int>> pistaColumnas) {
-         if (filaAct_Aux > filaMax_Aux) //ya terminamos el nonogram yey
-         {
-             return matrizLogica;
-         }
-
-         else if (columnaAct_Aux > columnaMax_Aux) //ya terminamos la fila mijo, siga con la que sigue
-         {
-             return marcar_Aux(matrizLogica, filaMax_Aux, columnaMax_Aux, filaAct_Aux + 1, 1, pistaFilas, pistaColumnas);
-         }
-
-         if (matrizLogica[filaAct_Aux - 1, columnaAct_Aux - 1] == 1) //si el campo esta lleno, no vaya a revisar, siga con la siguiente
-         {
-             return marcar_Aux(matrizLogica, filaMax_Aux, columnaMax_Aux, filaAct_Aux, columnaAct_Aux + 1, pistaFilas, pistaColumnas);
-         }
-         else {
-             if (verificarCasilla(filaAct_Aux, columnaAct_Aux, columnaMax_Aux, filaMax_Aux, matrizLogica, pistaFilas, pistaColumnas))
-             {
-                 matrizLogica[filaAct_Aux - 1, columnaAct_Aux - 1] = 1; //coloca porque si era valido
-             }
-             else {
-                 //tocaria hacer backtracking
-             }
-         }
-
-         /*if (pistaFilas[filaAct_Aux].Count == 1) { //La fila puede rellenarse completa
-             if (pistaFilas[filaAct_Aux][0] == filaMax_Aux) {
-                 for (int i = 0; i < columnaMax_Aux; i++) {
-                     matrizLogica[filaAct_Aux-1,i]=1;
-                 }
-             } 
-         }
-         if (pistaColumnas[columnaAct_Aux].Count == 1) { //La columna puede rellenarse completa
-             if (pistaColumnas[columnaAct_Aux][0] == columnaMax_Aux) {
-                 for (int i = 0; i < filaMax_Aux; i++) {
-                     matrizLogica[i, columnaAct_Aux - 1] = 1;
-                 }
-             }
-         }
-         return marcar_Aux(matrizLogica,filaMax_Aux,columnaMax_Aux,filaAct_Aux,columnaAct_Aux + 1,pistaFilas, pistaColumnas);
-
-} */
-
     void impresionMatriz(int[,] matrizLogica) {
         string res = "";
         for (int i = 0; i < datos.getX(); i++)
@@ -142,31 +20,45 @@ public class Juego : MonoBehaviour
         print(res);
     }
 
-    /* bool backtrackingSolved(int[,] matrizLogica)
+    bool backtrackingSolved()
     {
-        int[] porValidar = sigPuntoVacio(matrizLogica);
+        int[] porValidar = sigPuntoVacio(datos.getMatrizLogica());
         if (porValidar[0] == 0 && porValidar[1] == 0)
         {
-            return true; //validarCol() && validarFilas;
+            return true; //validarColumnas() && validarFilas();
         }
         
         porValidar[0] = porValidar[0] - 1;
         porValidar[1] = porValidar[1] - 1;
 
-        if (validarPosicion(porValidar)) { 
-        
-        }
-        for (int i = 0; i<10; i++)
-        {
-            if (valid(matrizLogica, i, (row, col))){
-                bo[row][col] = i;
-            }
-            if (solve(matrizLogica)) {
+        if (validarPosicion(porValidar, 1)) { //si el 1 tiene sentido
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
+            
+            if (backtrackingSolved()){
                 return true;
             }
-            matrizLogica[row,col] = 0;
+
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+        }
+        
+        else if (validarPosicion(porValidar, 2)){
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
+            if (backtrackingSolved())
+            {
+                return true;
+            }
+
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
         }
         return false;
+    }
+
+    bool validarColumnas() {
+        return true;
+    }
+
+    bool validarFilas() {
+        return true;
     }
 
     int[] sigPuntoVacio(int[,] matrizLogica){
@@ -174,8 +66,8 @@ public class Juego : MonoBehaviour
         for (int i = 0; i < datos.getX(); i++) {
             for (int j = 0; j < datos.getY(); j++) {
                 if (matrizLogica[i, j] == 0) { 
-                    puntoAValidar[0] = i+1;
-                    puntoAValidar[1] = j+1;
+                    puntoAValidar[0] = i+1;//x
+                    puntoAValidar[1] = j+1;//y
                     return puntoAValidar;
                 }
             }
@@ -183,20 +75,162 @@ public class Juego : MonoBehaviour
         return puntoAValidar;
     }
 
-    bool validarPosicion() { 
-    
-    }*/
+    bool validarPosicion(int[] porValidar, int pruebeCon) {
+        int columnaAct = porValidar[1];
+        int filaAct = porValidar[0];
+        int[] fila = genereArrayFila(filaAct);
+        int[] columna = genereArrayColumna(columnaAct);
+        if (pruebeCon == 2) {
+            return validarLineasPa2(fila, datos.getPistasX()[filaAct]) &&validarLineasPa2(columna, datos.getPistasY()[columnaAct]);
+        }
 
-    // Start is called before the first frame update
+        if (datos.getPistasX().Count == 0 || datos.getPistasY().Count == 0) {
+            return false;
+        }
+
+        if (datos.getPistasX()[filaAct+1][0] == datos.getX() || datos.getPistasY()[columnaAct+1][0] == datos.getY()) {
+            return true;
+        }
+        print("VA POR ACA DE COLUMNA: " + columnaAct);
+        print("VA POR ACA DE FILA: " + filaAct);
+        if (validarLineas(columna, datos.getPistasY()[columnaAct]) && validarLineas(fila, datos.getPistasX()[filaAct])) {
+            return true;
+        }
+        return false;
+    }
+
+    bool validarLineasPa2(int[] linea, List<int> pistas) {
+        if (espaciosDisponibles(linea) < porRellenar(linea, pistas)) {
+            return false;
+        }
+        return true;
+    }
+
+    int espaciosDisponibles(int[] linea) {
+        int contador = 0;
+        for (int i = 0; i < linea.Length; i++) {
+            if (linea[i]!=1 && linea[i]!=2) {
+                contador++;
+            }
+        }
+        return contador;
+    }
+
+    int porRellenar(int[] linea, List<int> pistas) {
+        int contador = 0;
+        for (int i = 0; i < linea.Length; i++) {
+            if (linea[i]==1) {
+                contador++;
+            }
+        }
+        contador = totalAMarcar(pistas) - contador;
+        return contador;
+    }
+
+    bool validarLineas(int[] linea, List <int>pistas) {
+        int[] gruposMarcadosV = gruposMarcados(linea, (pistas.Count));
+        
+        //faltan mas if, es decir, mas condiciones
+
+        for (int i = 0; i < pistas.Count; i++) {
+            if (gruposMarcadosV[i] > pistas[i])
+            {
+                return false;
+            }
+            if (lineaCompleta(linea, pistas) && gruposMarcadosV[i] != pistas[i]) {
+                return false;
+            }
+            
+        }
+        
+        return true;
+    }
+
+    int[] gruposMarcados(int[] linea, int cantidad) {
+        int contador = 0;
+        int pos = 0;
+        int[] gruposFinales = new int[cantidad];
+        print("LA CANTIDAD ESSSS: "+ cantidad);
+        impresionMatriz(datos.getMatrizLogica());
+        for (int j = 0; j < cantidad; j++) {
+            gruposFinales[j] = 0;
+            print("LISTA 1: " + gruposFinales[pos]);
+        }
+        for (int i = 0; i < linea.Length; i++) {
+            //print("LISTA: " + gruposFinales[pos]); 
+            print("LA POS ES: "+pos);
+            print("EL CONTADOR VA: "+contador);
+            if (linea[i] == 1) {
+                contador += 1;
+            }
+            
+            else if (contador != 0 && linea[i]!=1) {
+                print("ENTRA");
+                print("hola");
+                gruposFinales[0] = contador;
+                gruposFinales[pos] = contador;
+                contador = 0;
+                pos++;
+            } 
+        }
+        //gruposFinales[pos] = contador;
+        return gruposFinales;
+    }
+
+    int marcadosEnLinea(int[] linea) {
+        int marcados = 0;
+        for (int j = 0; j < linea.Length; j++)
+        {
+            marcados += linea[j];
+        }
+        return marcados;
+    }
+
+    int totalAMarcar(List<int> pistas) {
+        int marcados = 0;
+        for (int i = 0; i < pistas.Count; i++)
+        {
+            marcados += pistas[i];
+        }
+        return marcados;
+    }
+
+    bool lineaCompleta(int [] linea, List<int> pistas) {
+        int marcados = totalAMarcar(pistas);
+        int estan = marcadosEnLinea(linea);
+        return marcados == estan;
+    }
+
+    int[] genereArrayFila(int filaAct_Aux)
+    {
+        int[] fila = new int[datos.getY()];
+        for (int i = 0; i < datos.getY(); i++)
+        {
+            fila[i] = datos.getMatrizLogica()[filaAct_Aux, i];
+        }
+        return fila;
+    }
+
+    int[] genereArrayColumna(int columnaAct_Aux)
+    {
+        int[] columna = new int[datos.getX()];
+        for (int i = 0; i < datos.getX(); i++)
+        {
+            columna[i] = datos.getMatrizLogica()[i, columnaAct_Aux];
+        }
+        return columna;
+    }
+
     void Start()
     {
         lector.Leer();
         datos = lector.datos;
-        datos.setMatrizLogica();
+        datos.rellenaMatrizLogica();
+        impresionMatriz(datos.getMatrizLogica());
+        backtrackingSolved();
         impresionMatriz(datos.getMatrizLogica());
     }
 
-    // Update is called once per frame
     void Update()
     {
         

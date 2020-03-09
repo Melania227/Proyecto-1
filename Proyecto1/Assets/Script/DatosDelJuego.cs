@@ -67,7 +67,7 @@ public class DatosDelJuego : MonoBehaviour
         return matrizLogica;
     }
 
-    public void setMatrizLogica()
+    public void rellenaMatrizLogica()
     {
         this.matrizLogica = new int[x, y];
         for (int i = 0; i < x; i++){
@@ -75,6 +75,11 @@ public class DatosDelJuego : MonoBehaviour
                 matrizLogica[i, j] = 0;
             }
         }
+    }
+
+    public void setMatrizLogica(int x, int y, int valor)
+    {
+        this.matrizLogica[x,y] = valor;
     }
 
 }
