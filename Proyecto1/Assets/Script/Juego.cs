@@ -14,7 +14,7 @@ public class Juego : MonoBehaviour
             res += "\n";
             for (int j = 0; j < datos.getY(); j++)
             {
-                res += matrizLogica[i, j] + " ";
+                res += matrizLogica[i, j] + "  ";
             }
         }
         print(res);
@@ -31,6 +31,9 @@ public class Juego : MonoBehaviour
         porValidar[0] = porValidar[0] - 1;
         porValidar[1] = porValidar[1] - 1;
 
+        //print("VA POR ACA DE FILA: " + porValidar[0]);
+        //print("VA POR ACA DE COLUMNA: " + porValidar[1]);
+
         if (validarPosicion(porValidar, 1)) { //si el 1 tiene sentido
             datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
             
@@ -41,7 +44,7 @@ public class Juego : MonoBehaviour
             datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
         }
         
-        else if (validarPosicion(porValidar, 2)){
+        if (validarPosicion(porValidar, 2)){
             datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
             if (backtrackingSolved())
             {
@@ -79,28 +82,56 @@ public class Juego : MonoBehaviour
         int columnaAct = porValidar[1];
         int filaAct = porValidar[0];
         int[] fila = genereArrayFila(filaAct);
+        fila[columnaAct] = pruebeCon;
         int[] columna = genereArrayColumna(columnaAct);
+        columna[filaAct] = pruebeCon;
         if (pruebeCon == 2) {
-            return validarLineasPa2(fila, datos.getPistasX()[filaAct]) &&validarLineasPa2(columna, datos.getPistasY()[columnaAct]);
+            return validarLineasPa2(fila, datos.getPistasX()[filaAct+1]) &&validarLineasPa2(columna, datos.getPistasY()[columnaAct+1]);
         }
 
-        if (datos.getPistasX().Count == 0 || datos.getPistasY().Count == 0) {
+        if (datos.getPistasX()[filaAct+1].Count == 0 || datos.getPistasY()[columnaAct + 1].Count == 0) {
+            //print("AQUI WE");
             return false;
         }
 
-        if (datos.getPistasX()[filaAct+1][0] == datos.getX() || datos.getPistasY()[columnaAct+1][0] == datos.getY()) {
+        if (datos.getPistasX()[filaAct + 1][0] == datos.getY() || datos.getPistasY()[columnaAct + 1][0] == datos.getX()) {
+            //print("AQUI PUTOS");
             return true;
         }
-        print("VA POR ACA DE COLUMNA: " + columnaAct);
-        print("VA POR ACA DE FILA: " + filaAct);
-        if (validarLineas(columna, datos.getPistasY()[columnaAct]) && validarLineas(fila, datos.getPistasX()[filaAct])) {
+
+        //print("HOLA PPUTOS CBRIJNCAENOEQ: " + gruposTotales(fila, datos.getPistasX()[filaAct + 1].Count) + datos.getPistasX()[filaAct + 1].Count);
+        if (gruposTotales(fila, datos.getPistasX()[filaAct + 1].Count) > datos.getPistasX()[filaAct + 1].Count || gruposTotales(columna, datos.getPistasX()[filaAct + 1].Count) > datos.getPistasY()[columnaAct + 1].Count)
+        {
+            //print("AQUI MAMAVERGAS");
+            return false;
+        }
+
+        //imprimirPistas(datos.getPistasX()[filaAct+1], datos.getPistasY()[columnaAct+1]);
+        if (validarLineas(columna, datos.getPistasY()[columnaAct+1]) && validarLineas(fila, datos.getPistasX()[filaAct+1])) {
             return true;
         }
+        
         return false;
+    }
+
+    void imprimirPistas(List <int> pistasC, List<int> pistasF) {
+        string hola = "";
+        string hola2 = "";
+
+        for (int i = 0; i<pistasC.Count;i++) {
+            hola += " " + pistasC[i];
+        }
+        //print("LAS PISTAS DE FILA SON:" + hola);
+        for (int j = 0; j < pistasF.Count; j++)
+        {
+            hola2 += " " + pistasF[j];
+        }
+        //print("LAS PISTAS DE COLUMNA SON:" + hola2);
     }
 
     bool validarLineasPa2(int[] linea, List<int> pistas) {
         if (espaciosDisponibles(linea) < porRellenar(linea, pistas)) {
+            //print("PA 2 MIJOS");
             return false;
         }
         return true;
@@ -130,14 +161,14 @@ public class Juego : MonoBehaviour
     bool validarLineas(int[] linea, List <int>pistas) {
         int[] gruposMarcadosV = gruposMarcados(linea, (pistas.Count));
         
-        //faltan mas if, es decir, mas condiciones
-
         for (int i = 0; i < pistas.Count; i++) {
             if (gruposMarcadosV[i] > pistas[i])
             {
+                //print("AY");
                 return false;
             }
             if (lineaCompleta(linea, pistas) && gruposMarcadosV[i] != pistas[i]) {
+                //print("WE");
                 return false;
             }
             
@@ -146,34 +177,52 @@ public class Juego : MonoBehaviour
         return true;
     }
 
+    int gruposTotales(int[] linea, int cantidad)
+    {
+        int contador = 0;
+        int cantGrupos = 0;
+        for (int i = 0; i < linea.Length; i++)
+        {
+            if (linea[i] == 1)
+            {
+                contador += 1;
+            }
+
+            else if (contador != 0 && linea[i] != 1)
+            {
+                contador = 0;
+                cantGrupos++;
+            }
+        }
+        if (contador != 0)
+        {
+            cantGrupos++;
+        }
+        return cantGrupos;
+    }
+
     int[] gruposMarcados(int[] linea, int cantidad) {
         int contador = 0;
         int pos = 0;
         int[] gruposFinales = new int[cantidad];
-        print("LA CANTIDAD ESSSS: "+ cantidad);
-        impresionMatriz(datos.getMatrizLogica());
         for (int j = 0; j < cantidad; j++) {
             gruposFinales[j] = 0;
-            print("LISTA 1: " + gruposFinales[pos]);
         }
         for (int i = 0; i < linea.Length; i++) {
             //print("LISTA: " + gruposFinales[pos]); 
-            print("LA POS ES: "+pos);
-            print("EL CONTADOR VA: "+contador);
             if (linea[i] == 1) {
                 contador += 1;
             }
             
-            else if (contador != 0 && linea[i]!=1) {
-                print("ENTRA");
-                print("hola");
-                gruposFinales[0] = contador;
+            else if (contador != 0) {
                 gruposFinales[pos] = contador;
                 contador = 0;
                 pos++;
             } 
         }
-        //gruposFinales[pos] = contador;
+        if (contador!=0) {
+            gruposFinales[pos] = contador;
+        }
         return gruposFinales;
     }
 
@@ -196,9 +245,12 @@ public class Juego : MonoBehaviour
     }
 
     bool lineaCompleta(int [] linea, List<int> pistas) {
-        int marcados = totalAMarcar(pistas);
-        int estan = marcadosEnLinea(linea);
-        return marcados == estan;
+        for (int i = 0; i < linea.Length; i++) {
+            if (linea[i] == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     int[] genereArrayFila(int filaAct_Aux)
@@ -226,8 +278,12 @@ public class Juego : MonoBehaviour
         lector.Leer();
         datos = lector.datos;
         datos.rellenaMatrizLogica();
-        impresionMatriz(datos.getMatrizLogica());
+        //impresionMatriz(datos.getMatrizLogica());
+        var watch = System.Diagnostics.Stopwatch.StartNew();
         backtrackingSolved();
+        watch.Stop();
+        var elapsedMs = watch.ElapsedMilliseconds;
+        print(elapsedMs);
         impresionMatriz(datos.getMatrizLogica());
     }
 
