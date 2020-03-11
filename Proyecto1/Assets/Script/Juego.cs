@@ -20,6 +20,34 @@ public class Juego : MonoBehaviour
         print(res);
     }
 
+    /* PRINT QUE ENVIO MELA
+     public void print()
+    {
+        string res = "";
+
+        for (int i = 0; i < rows; i++)
+        {
+            
+            res += "\n";
+            for (int j = 0; j < columns; j++)
+            {
+                if (gameBoard[i][j] == 1)
+                {
+                    res += "▓";
+                }
+                else
+
+                {
+                    res += "▒"; 
+                }
+
+            }
+        }
+
+        print(res);
+    }
+         */
+
     bool backtrackingSolved()
     {
         int[] porValidar = sigPuntoVacio(datos.getMatrizLogica());
