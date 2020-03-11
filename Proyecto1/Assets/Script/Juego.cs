@@ -9,14 +9,26 @@ public class Juego : MonoBehaviour
 
     void impresionMatriz(int[,] matrizLogica) {
         string res = "";
+
         for (int i = 0; i < datos.getX(); i++)
         {
+
             res += "\n";
             for (int j = 0; j < datos.getY(); j++)
             {
-                res += matrizLogica[i, j] + "  ";
+                if (datos.getMatrizLogica()[i,j] == 1)
+                {
+                    res += "▓";
+                }
+                else
+
+                {
+                    res += "▒";
+                }
+
             }
         }
+
         print(res);
     }
 
@@ -59,10 +71,8 @@ public class Juego : MonoBehaviour
         porValidar[0] = porValidar[0] - 1;
         porValidar[1] = porValidar[1] - 1;
 
-        //print("VA POR ACA DE FILA: " + porValidar[0]);
-        //print("VA POR ACA DE COLUMNA: " + porValidar[1]);
 
-        if (validarPosicion(porValidar, 1)) { //si el 1 tiene sentido
+        if (validarPosicion(porValidar, 1)) { 
             datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
             
             if (backtrackingSolved()){
@@ -159,9 +169,18 @@ public class Juego : MonoBehaviour
 
     bool validarLineasPa2(int[] linea, List<int> pistas) {
         if (espaciosDisponibles(linea) < porRellenar(linea, pistas)) {
-            //print("PA 2 MIJOS");
             return false;
         }
+
+        int[] gruposComoPistas = gruposMarcados(linea, pistas.Count);
+        for (int i = 0; i < gruposComoPistas.Length; i++)
+        {
+            if (gruposComoPistas[i] != 0 && gruposComoPistas[i] < pistas[i])
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 
