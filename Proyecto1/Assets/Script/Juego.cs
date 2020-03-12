@@ -6,6 +6,9 @@ public class Juego : MonoBehaviour
 {
     public Lector lector;
     public DatosDelJuego datos;
+    public GridGame grid;
+    //public GameObject FrameLines;
+   // public GameObject tiles;
 
     void impresionMatriz(int[,] matrizLogica) {
         string res = "";
@@ -32,33 +35,6 @@ public class Juego : MonoBehaviour
         print(res);
     }
 
-    /* PRINT QUE ENVIO MELA
-     public void print()
-    {
-        string res = "";
-
-        for (int i = 0; i < rows; i++)
-        {
-            
-            res += "\n";
-            for (int j = 0; j < columns; j++)
-            {
-                if (gameBoard[i][j] == 1)
-                {
-                    res += "▓";
-                }
-                else
-
-                {
-                    res += "▒"; 
-                }
-
-            }
-        }
-
-        print(res);
-    }
-         */
 
     bool backtrackingSolved()
     {
@@ -332,6 +308,8 @@ public class Juego : MonoBehaviour
         var elapsedMs = watch.ElapsedMilliseconds;
         print(elapsedMs);
         impresionMatriz(datos.getMatrizLogica());
+        grid.setVariables(datos.getX(), datos.getY());
+        grid.correctAnswer(datos.matrizLogica);
     }
 
     void Update()

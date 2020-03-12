@@ -8,7 +8,7 @@ public class DatosDelJuego : MonoBehaviour
     private int y;
     private List<List<int>> PistasX = new List<List<int>>();
     private List<List<int>> PistasY= new List<List<int>>();
-    private int[,] matrizLogica;
+    public int[,] matrizLogica;
 
     public DatosDelJuego() {
         x = y = 0;
