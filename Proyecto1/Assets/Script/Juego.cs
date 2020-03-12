@@ -114,7 +114,7 @@ public class Juego : MonoBehaviour
         }
 
         //print("HOLA PPUTOS CBRIJNCAENOEQ: " + gruposTotales(fila, datos.getPistasX()[filaAct + 1].Count) + datos.getPistasX()[filaAct + 1].Count);
-        if (gruposTotales(fila, datos.getPistasX()[filaAct + 1].Count) > datos.getPistasX()[filaAct + 1].Count || gruposTotales(columna, datos.getPistasX()[filaAct + 1].Count) > datos.getPistasY()[columnaAct + 1].Count)
+        if (gruposTotales(fila, datos.getPistasX()[filaAct + 1].Count) > datos.getPistasX()[filaAct + 1].Count || gruposTotales(columna, datos.getPistasY()[columnaAct + 1].Count) > datos.getPistasY()[columnaAct + 1].Count)
         {
             //print("AQUI MAMAVERGAS");
             return false;
@@ -237,13 +237,13 @@ public class Juego : MonoBehaviour
                 contador += 1;
             }
             
-            else if (contador != 0) {
+            else if (contador != 0 && pos<cantidad) {
                 gruposFinales[pos] = contador;
                 contador = 0;
                 pos++;
             } 
         }
-        if (contador!=0) {
+        if (contador!=0 && pos < cantidad) {
             gruposFinales[pos] = contador;
         }
         return gruposFinales;
