@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7206577944111876778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,3 +46,4 @@ MonoBehaviour:
   FrameLines: {fileID: 4857273569481490098, guid: 5d70c2caee00d3942a8754bafbaf6f64,
     type: 3}
   tiles: {fileID: 3106886975787079569, guid: 190c2a359d8ac59468bd05907f9068bf, type: 3}
+  juego: {fileID: 6260338077597031892, guid: 809bfd4954312914bbc23d6b13e33d6f, type: 3}

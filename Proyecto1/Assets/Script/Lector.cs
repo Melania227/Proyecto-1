@@ -9,10 +9,12 @@ using System.IO;
 public class Lector : MonoBehaviour
 {
     public DatosDelJuego datos;
+    
+    //Realizar la lectura del archivo .TXT
 
-    public void Leer()
+    public void Leer(string path)
     {
-        using (StreamReader sr = File.OpenText("Cat.txt"))
+        using (StreamReader sr = File.OpenText(path))
         {
             string s = String.Empty;
             s = sr.ReadLine();

@@ -1,14 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 
 public class Juego : MonoBehaviour
 {
     public Lector lector;
     public DatosDelJuego datos;
     public GridGame grid;
-    //public GameObject FrameLines;
-   // public GameObject tiles;
+    public Thread hiloBackt;
+    public Thread hiloPintar;
+
+    public InputField field;
+    public Toggle animacion;
+    public GameObject text;
+    public GameObject juego;
+
+    public string path;
+    public bool animation;
 
     void impresionMatriz(int[,] matrizLogica) {
         string res = "";
@@ -19,7 +30,7 @@ public class Juego : MonoBehaviour
             res += "\n";
             for (int j = 0; j < datos.getY(); j++)
             {
-                if (datos.getMatrizLogica()[i,j] == 1)
+                if (datos.getMatrizLogica()[i, j] == 1)
                 {
                     res += "▓";
                 }
@@ -35,6 +46,65 @@ public class Juego : MonoBehaviour
         print(res);
     }
 
+    public void hiloBacktracking()
+    {
+        hiloBackt = new Thread(Run);
+        hiloBackt.Start();
+       
+
+    }
+
+    public void Run()
+    {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+        backtrackingSolvedAnimated();
+        watch.Stop();
+        var elapsedMs = watch.ElapsedMilliseconds;
+        //ESTO PASA EL TIEMPO MAL, HAY QUE ARREGLARLO PERO ESTOY CANSADA :(
+        MainThread.thread.AddJob(() => {
+            text.GetComponent<UnityEngine.UI.Text>().text = elapsedMs.ToString();
+        });
+
+    }
+
+    bool backtrackingSolvedAnimated()
+    {
+        int[] porValidar = sigPuntoVacio(datos.getMatrizLogica());
+        if (porValidar[0] == 0 && porValidar[1] == 0)
+        {
+            return true; //validarColumnas() && validarFilas();
+        }
+
+        porValidar[0] = porValidar[0] - 1;
+        porValidar[1] = porValidar[1] - 1;
+
+
+        if (validarPosicion(porValidar, 1))
+        {
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
+            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 1); });
+            if (backtrackingSolvedAnimated())
+            {
+                return true;
+            }
+            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+        }
+
+        if (validarPosicion(porValidar, 2))
+        {
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
+            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 2); });
+            if (backtrackingSolvedAnimated())
+            {
+                return true;
+            }
+            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
+            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+        }
+
+        return false;
+    }
 
     bool backtrackingSolved()
     {
@@ -43,30 +113,28 @@ public class Juego : MonoBehaviour
         {
             return true; //validarColumnas() && validarFilas();
         }
-        
+
         porValidar[0] = porValidar[0] - 1;
         porValidar[1] = porValidar[1] - 1;
 
 
-        if (validarPosicion(porValidar, 1)) { 
+        if (validarPosicion(porValidar, 1)) {
             datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
-            
-            if (backtrackingSolved()){
+            if (backtrackingSolved()) {
                 return true;
             }
-
             datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
         }
-        
-        if (validarPosicion(porValidar, 2)){
+
+        if (validarPosicion(porValidar, 2)) {
             datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
             if (backtrackingSolved())
             {
                 return true;
             }
-
             datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
         }
+
         return false;
     }
 
@@ -78,13 +146,13 @@ public class Juego : MonoBehaviour
         return true;
     }
 
-    int[] sigPuntoVacio(int[,] matrizLogica){
+    int[] sigPuntoVacio(int[,] matrizLogica) {
         int[] puntoAValidar = { 0, 0 };
         for (int i = 0; i < datos.getX(); i++) {
             for (int j = 0; j < datos.getY(); j++) {
-                if (matrizLogica[i, j] == 0) { 
-                    puntoAValidar[0] = i+1;//x
-                    puntoAValidar[1] = j+1;//y
+                if (matrizLogica[i, j] == 0) {
+                    puntoAValidar[0] = i + 1;//x
+                    puntoAValidar[1] = j + 1;//y
                     return puntoAValidar;
                 }
             }
@@ -100,10 +168,10 @@ public class Juego : MonoBehaviour
         int[] columna = genereArrayColumna(columnaAct);
         columna[filaAct] = pruebeCon;
         if (pruebeCon == 2) {
-            return validarLineasPa2(fila, datos.getPistasX()[filaAct+1]) &&validarLineasPa2(columna, datos.getPistasY()[columnaAct+1]);
+            return validarLineasPa2(fila, datos.getPistasX()[filaAct + 1]) && validarLineasPa2(columna, datos.getPistasY()[columnaAct + 1]);
         }
 
-        if (datos.getPistasX()[filaAct+1].Count == 0 || datos.getPistasY()[columnaAct + 1].Count == 0) {
+        if (datos.getPistasX()[filaAct + 1].Count == 0 || datos.getPistasY()[columnaAct + 1].Count == 0) {
             //print("AQUI WE");
             return false;
         }
@@ -121,18 +189,18 @@ public class Juego : MonoBehaviour
         }
 
         //imprimirPistas(datos.getPistasX()[filaAct+1], datos.getPistasY()[columnaAct+1]);
-        if (validarLineas(columna, datos.getPistasY()[columnaAct+1]) && validarLineas(fila, datos.getPistasX()[filaAct+1])) {
+        if (validarLineas(columna, datos.getPistasY()[columnaAct + 1]) && validarLineas(fila, datos.getPistasX()[filaAct + 1])) {
             return true;
         }
-        
+
         return false;
     }
 
-    void imprimirPistas(List <int> pistasC, List<int> pistasF) {
+    void imprimirPistas(List<int> pistasC, List<int> pistasF) {
         string hola = "";
         string hola2 = "";
 
-        for (int i = 0; i<pistasC.Count;i++) {
+        for (int i = 0; i < pistasC.Count; i++) {
             hola += " " + pistasC[i];
         }
         //print("LAS PISTAS DE FILA SON:" + hola);
@@ -163,7 +231,7 @@ public class Juego : MonoBehaviour
     int espaciosDisponibles(int[] linea) {
         int contador = 0;
         for (int i = 0; i < linea.Length; i++) {
-            if (linea[i]!=1 && linea[i]!=2) {
+            if (linea[i] != 1 && linea[i] != 2) {
                 contador++;
             }
         }
@@ -173,7 +241,7 @@ public class Juego : MonoBehaviour
     int porRellenar(int[] linea, List<int> pistas) {
         int contador = 0;
         for (int i = 0; i < linea.Length; i++) {
-            if (linea[i]==1) {
+            if (linea[i] == 1) {
                 contador++;
             }
         }
@@ -181,9 +249,9 @@ public class Juego : MonoBehaviour
         return contador;
     }
 
-    bool validarLineas(int[] linea, List <int>pistas) {
+    bool validarLineas(int[] linea, List<int> pistas) {
         int[] gruposMarcadosV = gruposMarcados(linea, (pistas.Count));
-        
+
         for (int i = 0; i < pistas.Count; i++) {
             if (gruposMarcadosV[i] > pistas[i])
             {
@@ -194,9 +262,9 @@ public class Juego : MonoBehaviour
                 //print("WE");
                 return false;
             }
-            
+
         }
-        
+
         return true;
     }
 
@@ -236,14 +304,14 @@ public class Juego : MonoBehaviour
             if (linea[i] == 1) {
                 contador += 1;
             }
-            
-            else if (contador != 0 && pos<cantidad) {
+
+            else if (contador != 0 && pos < cantidad) {
                 gruposFinales[pos] = contador;
                 contador = 0;
                 pos++;
-            } 
+            }
         }
-        if (contador!=0 && pos < cantidad) {
+        if (contador != 0 && pos < cantidad) {
             gruposFinales[pos] = contador;
         }
         return gruposFinales;
@@ -267,7 +335,7 @@ public class Juego : MonoBehaviour
         return marcados;
     }
 
-    bool lineaCompleta(int [] linea, List<int> pistas) {
+    bool lineaCompleta(int[] linea, List<int> pistas) {
         for (int i = 0; i < linea.Length; i++) {
             if (linea[i] == 0) {
                 return false;
@@ -296,25 +364,59 @@ public class Juego : MonoBehaviour
         return columna;
     }
 
+    public void getPath() {
+        path = field.text;
+        //print(path);
+        //print("gatito");
+
+    }
+   
+    public void animationOn()
+    {
+        if(animacion.isOn)
+            animation = true;
+        else
+            animation = false;
+    }
+
+    public void iniciar() {
+
+        Start();
+    }
+
     void Start()
     {
-        lector.Leer();
-        datos = lector.datos;
-        datos.rellenaMatrizLogica();
-        //impresionMatriz(datos.getMatrizLogica());
-        var watch = System.Diagnostics.Stopwatch.StartNew();
-        backtrackingSolved();
-        watch.Stop();
-        var elapsedMs = watch.ElapsedMilliseconds;
-        print(elapsedMs);
-        impresionMatriz(datos.getMatrizLogica());
-        grid.setVariables(datos.getX(), datos.getY());
-        grid.correctAnswer(datos.matrizLogica);
+        if (path != null && path != "") {
+            lector.Leer(path);
+            datos = lector.datos;
+            datos.rellenaMatrizLogica();
+            grid.setVariables(datos.getX(), datos.getY());
+            if (animation) {
+                hiloBacktracking();
+            }
+            else
+            {
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                backtrackingSolved();
+                grid.correctAnswer(datos.getMatrizLogica());
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                text.GetComponent<UnityEngine.UI.Text>().text = elapsedMs.ToString();
+            }
+        }
+        else{
+           
+            EditorUtility.DisplayDialog("Error.", "Path not found, please add one in options section." , "Ok");
+            juego.gameObject.SetActive(false);
+        }
+        
     }
+
 
     void Update()
     {
         
+
     }
 
     
