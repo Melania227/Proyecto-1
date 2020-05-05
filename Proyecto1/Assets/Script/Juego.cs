@@ -8,8 +8,14 @@ using UnityEditor;
 public class Juego : MonoBehaviour
 {
     public Lector lector;
+    public Lector lectorInicial;
+
     public DatosDelJuego datos;
+    public DatosDelJuego datosIniciales;
+
     public GridGame grid;
+    public GridGame gridInicial;
+
 
     public Thread hiloBackt;
     public Thread hiloPintar;
@@ -23,12 +29,13 @@ public class Juego : MonoBehaviour
     public GameObject juego;
 
 
-    public string path;
+    public string path = "";
 
-    public bool animation;
+    public bool animation = true;
 
 
-    void impresionMatriz(int[,] matrizLogica) {
+    void impresionMatriz(int[,] matrizLogica)
+    {
         string res = "";
 
         for (int i = 0; i < datos.getX(); i++)
@@ -68,7 +75,8 @@ public class Juego : MonoBehaviour
         string tiempo = elapsedMs.ToString();
         print(tiempo);
         //ESTO PASA EL TIEMPO MAL, HAY QUE ARREGLARLO PERO ESTOY CANSADA :(
-        MainThread.thread.AddJob(() => {
+        MainThread.thread.AddJob(() =>
+        {
             grid.showTime(tiempo);
         });
     }
@@ -124,15 +132,18 @@ public class Juego : MonoBehaviour
         porValidar[1] = porValidar[1] - 1;
 
 
-        if (validarPosicion(porValidar, 1)) {
+        if (validarPosicion(porValidar, 1))
+        {
             datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
-            if (backtrackingSolved()) {
+            if (backtrackingSolved())
+            {
                 return true;
             }
             datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
         }
 
-        if (validarPosicion(porValidar, 2)) {
+        if (validarPosicion(porValidar, 2))
+        {
             datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
             if (backtrackingSolved())
             {
@@ -144,19 +155,25 @@ public class Juego : MonoBehaviour
         return false;
     }
 
-    bool validarColumnas() {
+    bool validarColumnas()
+    {
         return true;
     }
 
-    bool validarFilas() {
+    bool validarFilas()
+    {
         return true;
     }
 
-    int[] sigPuntoVacio(int[,] matrizLogica) {
+    int[] sigPuntoVacio(int[,] matrizLogica)
+    {
         int[] puntoAValidar = { 0, 0 };
-        for (int i = 0; i < datos.getX(); i++) {
-            for (int j = 0; j < datos.getY(); j++) {
-                if (matrizLogica[i, j] == 0) {
+        for (int i = 0; i < datos.getX(); i++)
+        {
+            for (int j = 0; j < datos.getY(); j++)
+            {
+                if (matrizLogica[i, j] == 0)
+                {
                     puntoAValidar[0] = i + 1;//x
                     puntoAValidar[1] = j + 1;//y
                     return puntoAValidar;
@@ -166,23 +183,27 @@ public class Juego : MonoBehaviour
         return puntoAValidar;
     }
 
-    bool validarPosicion(int[] porValidar, int pruebeCon) {
+    bool validarPosicion(int[] porValidar, int pruebeCon)
+    {
         int columnaAct = porValidar[1];
         int filaAct = porValidar[0];
         int[] fila = genereArrayFila(filaAct);
         fila[columnaAct] = pruebeCon;
         int[] columna = genereArrayColumna(columnaAct);
         columna[filaAct] = pruebeCon;
-        if (pruebeCon == 2) {
+        if (pruebeCon == 2)
+        {
             return validarLineasPa2(fila, datos.getPistasX()[filaAct + 1]) && validarLineasPa2(columna, datos.getPistasY()[columnaAct + 1]);
         }
 
-        if (datos.getPistasX()[filaAct + 1].Count == 0 || datos.getPistasY()[columnaAct + 1].Count == 0) {
+        if (datos.getPistasX()[filaAct + 1].Count == 0 || datos.getPistasY()[columnaAct + 1].Count == 0)
+        {
             //print("AQUI WE");
             return false;
         }
 
-        if (datos.getPistasX()[filaAct + 1][0] == datos.getY() || datos.getPistasY()[columnaAct + 1][0] == datos.getX()) {
+        if (datos.getPistasX()[filaAct + 1][0] == datos.getY() || datos.getPistasY()[columnaAct + 1][0] == datos.getX())
+        {
             //print("AQUI PUTOS");
             return true;
         }
@@ -195,18 +216,21 @@ public class Juego : MonoBehaviour
         }
 
         //imprimirPistas(datos.getPistasX()[filaAct+1], datos.getPistasY()[columnaAct+1]);
-        if (validarLineas(columna, datos.getPistasY()[columnaAct + 1]) && validarLineas(fila, datos.getPistasX()[filaAct + 1])) {
+        if (validarLineas(columna, datos.getPistasY()[columnaAct + 1]) && validarLineas(fila, datos.getPistasX()[filaAct + 1]))
+        {
             return true;
         }
 
         return false;
     }
 
-    void imprimirPistas(List<int> pistasC, List<int> pistasF) {
+    void imprimirPistas(List<int> pistasC, List<int> pistasF)
+    {
         string hola = "";
         string hola2 = "";
 
-        for (int i = 0; i < pistasC.Count; i++) {
+        for (int i = 0; i < pistasC.Count; i++)
+        {
             hola += " " + pistasC[i];
         }
         //print("LAS PISTAS DE FILA SON:" + hola);
@@ -217,8 +241,10 @@ public class Juego : MonoBehaviour
         //print("LAS PISTAS DE COLUMNA SON:" + hola2);
     }
 
-    bool validarLineasPa2(int[] linea, List<int> pistas) {
-        if (espaciosDisponibles(linea) < porRellenar(linea, pistas)) {
+    bool validarLineasPa2(int[] linea, List<int> pistas)
+    {
+        if (espaciosDisponibles(linea) < porRellenar(linea, pistas))
+        {
             return false;
         }
 
@@ -234,20 +260,26 @@ public class Juego : MonoBehaviour
         return true;
     }
 
-    int espaciosDisponibles(int[] linea) {
+    int espaciosDisponibles(int[] linea)
+    {
         int contador = 0;
-        for (int i = 0; i < linea.Length; i++) {
-            if (linea[i] != 1 && linea[i] != 2) {
+        for (int i = 0; i < linea.Length; i++)
+        {
+            if (linea[i] != 1 && linea[i] != 2)
+            {
                 contador++;
             }
         }
         return contador;
     }
 
-    int porRellenar(int[] linea, List<int> pistas) {
+    int porRellenar(int[] linea, List<int> pistas)
+    {
         int contador = 0;
-        for (int i = 0; i < linea.Length; i++) {
-            if (linea[i] == 1) {
+        for (int i = 0; i < linea.Length; i++)
+        {
+            if (linea[i] == 1)
+            {
                 contador++;
             }
         }
@@ -255,16 +287,19 @@ public class Juego : MonoBehaviour
         return contador;
     }
 
-    bool validarLineas(int[] linea, List<int> pistas) {
+    bool validarLineas(int[] linea, List<int> pistas)
+    {
         int[] gruposMarcadosV = gruposMarcados(linea, (pistas.Count));
 
-        for (int i = 0; i < pistas.Count; i++) {
+        for (int i = 0; i < pistas.Count; i++)
+        {
             if (gruposMarcadosV[i] > pistas[i])
             {
                 //print("AY");
                 return false;
             }
-            if (lineaCompleta(linea, pistas) && gruposMarcadosV[i] != pistas[i]) {
+            if (lineaCompleta(linea, pistas) && gruposMarcadosV[i] != pistas[i])
+            {
                 //print("WE");
                 return false;
             }
@@ -298,32 +333,39 @@ public class Juego : MonoBehaviour
         return cantGrupos;
     }
 
-    int[] gruposMarcados(int[] linea, int cantidad) {
+    int[] gruposMarcados(int[] linea, int cantidad)
+    {
         int contador = 0;
         int pos = 0;
         int[] gruposFinales = new int[cantidad];
-        for (int j = 0; j < cantidad; j++) {
+        for (int j = 0; j < cantidad; j++)
+        {
             gruposFinales[j] = 0;
         }
-        for (int i = 0; i < linea.Length; i++) {
+        for (int i = 0; i < linea.Length; i++)
+        {
             //print("LISTA: " + gruposFinales[pos]); 
-            if (linea[i] == 1) {
+            if (linea[i] == 1)
+            {
                 contador += 1;
             }
 
-            else if (contador != 0 && pos < cantidad) {
+            else if (contador != 0 && pos < cantidad)
+            {
                 gruposFinales[pos] = contador;
                 contador = 0;
                 pos++;
             }
         }
-        if (contador != 0 && pos < cantidad) {
+        if (contador != 0 && pos < cantidad)
+        {
             gruposFinales[pos] = contador;
         }
         return gruposFinales;
     }
 
-    int marcadosEnLinea(int[] linea) {
+    int marcadosEnLinea(int[] linea)
+    {
         int marcados = 0;
         for (int j = 0; j < linea.Length; j++)
         {
@@ -332,7 +374,8 @@ public class Juego : MonoBehaviour
         return marcados;
     }
 
-    int totalAMarcar(List<int> pistas) {
+    int totalAMarcar(List<int> pistas)
+    {
         int marcados = 0;
         for (int i = 0; i < pistas.Count; i++)
         {
@@ -341,9 +384,12 @@ public class Juego : MonoBehaviour
         return marcados;
     }
 
-    bool lineaCompleta(int[] linea, List<int> pistas) {
-        for (int i = 0; i < linea.Length; i++) {
-            if (linea[i] == 0) {
+    bool lineaCompleta(int[] linea, List<int> pistas)
+    {
+        for (int i = 0; i < linea.Length; i++)
+        {
+            if (linea[i] == 0)
+            {
                 return false;
             }
         }
@@ -370,7 +416,8 @@ public class Juego : MonoBehaviour
         return columna;
     }
 
-    public void getPath() {
+    public void getPath()
+    {
         path = field.text;
     }
 
@@ -382,14 +429,17 @@ public class Juego : MonoBehaviour
             animation = false;
     }
 
-    public void iniciar() {
-        if (path != null && path != "") {
+    public void iniciar()
+    {
+        if (path != null && path != "")
+        {
             lector.Leer(path);
             datos = lector.datos;
             datos.rellenaMatrizLogica();
             grid.setVariables(datos.getX(), datos.getY(), datos.getPistasX(), datos.getPistasY());
             atras.interactable = false;
-            if (animation) {
+            if (animation)
+            {
                 boton.interactable = false;
                 hiloBacktracking();
             }
@@ -406,12 +456,25 @@ public class Juego : MonoBehaviour
                 atras.interactable = true;
             }
         }
-        else {
+        else
+        {
 
             EditorUtility.DisplayDialog("Error.", "Path not found, please add one in options section.", "Ok");
-            
+
         }
 
     }
 
+    public void Start()
+    {
+        datosIniciales = datos;
+        gridInicial = grid;
+        lectorInicial = lector;
+    }
+    public void reset()
+    {
+        datos = datosIniciales;
+        grid = gridInicial;
+        lector = lectorInicial;
+    }
 }

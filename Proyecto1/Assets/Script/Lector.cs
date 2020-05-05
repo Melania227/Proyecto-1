@@ -8,12 +8,13 @@ using System.IO;
 
 public class Lector : MonoBehaviour
 {
-    public DatosDelJuego datos;
+    public DatosDelJuego datos = new DatosDelJuego();
     
     //Realizar la lectura del archivo .TXT
 
     public void Leer(string path)
     {
+        datos = new DatosDelJuego();
         using (StreamReader sr = File.OpenText(path))
         {
             string s = String.Empty;
@@ -33,7 +34,6 @@ public class Lector : MonoBehaviour
             for (int n= 0; n< largoY; n++)
             {
                 s = sr.ReadLine();
-                //print(s + "*****");
                 Pista(s, 'y');
 
             }
@@ -74,18 +74,15 @@ public class Lector : MonoBehaviour
             {
                 
                 res += lineaActual[n];
-                //print(lineaActual[n]);
 
             }
             else
             {
-                //print(res);
                 lista.Add(System.Convert.ToInt32(res));
                 res = "";
                 n++;
             }
         }
-        //print(res);
         lista.Add(System.Convert.ToInt32(res));
         if (tipo == 'x') this.datos.addListX(lista);
         else this.datos.addListY(lista);

@@ -7,21 +7,21 @@ using UnityEditor;
 public class GridGame : MonoBehaviour
 {
 
-    public float X;
-    public float Y;
+    public float X = 0;
+    public float Y = 0;
 
     private Vector2 tileSize;
 
     private GameObject[,] ObjectList;
 
-    private float inicial1;
-    private float inicial;
+    private float inicial1 =0;
+    private float inicial =0;
 
-    private float calculo1;
-    private float calculo2;
+    private float calculo1=0;
+    private float calculo2 =0;
 
-    private int rows;
-    private int columns;
+    private int rows =0;
+    private int columns =0;
 
     public GameObject juego;
 
@@ -90,10 +90,6 @@ public class GridGame : MonoBehaviour
             obj.transform.position = new Vector3(0, inicial1 - (calculo1 * row), 2);
             obj.transform.SetParent(juego.transform);
 
-           /* GameObject obj2 = Instantiate(FrameLines);
-            obj2.transform.localScale = new Vector3(tileSize.x * 2, 15, 2);
-            obj2.transform.position = new Vector3(totalX + (calculo2 * -(float)1.5), inicial1 - (calculo1 * row), 2);
-            obj2.transform.SetParent(juego.transform);*/
         }
         for (int col = 0; col <= columns; col++)
         {
@@ -103,10 +99,6 @@ public class GridGame : MonoBehaviour
             obj.transform.position = new Vector3(inicial - (calculo2 * col), 0, 2);
             obj.transform.SetParent(juego.transform);
 
-           /* GameObject obj2 = Instantiate(FrameLines);
-            obj2.transform.localScale = new Vector3(15, tileSize.y * 2, 2);
-            obj2.transform.position = new Vector3(inicial - (calculo2 * col), -totalY - (calculo1 * -(float)1.5), 0);
-            obj2.transform.SetParent(juego.transform);*/
         }
 
     }
@@ -206,12 +198,6 @@ public class GridGame : MonoBehaviour
             txtObj.GetComponent<UnityEngine.UI.Text>().text = (actualClue);
             txtObj.transform.SetParent(juego.transform);
 
-            /*//Espacios para pistas
-            GameObject tileObj = Instantiate(tiles);
-            tileObj.transform.localScale = new Vector3(tileSize.x * 3, tileSize.y, 0);
-            tileObj.transform.position = new Vector3(totalX + (calculo2 * -(float)1.5), -totalY - (calculo1 * j), 0);
-            tileObj.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 0.3f);
-            tileObj.transform.SetParent(juego.transform);*/
         }
         for (int j = 0; j < columns; j++)
         {

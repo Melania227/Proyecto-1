@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class DatosDelJuego : MonoBehaviour
 {
-    private int x;
-    private int y;
-    private List<List<int>> PistasX = new List<List<int>>();
-    private List<List<int>> PistasY= new List<List<int>>();
-    public int[,] matrizLogica;
+    public int x=0;
+    public int y=0;
+    public List<List<int>> PistasX = new List<List<int>>();
+    public List<List<int>> PistasY = new List<List<int>>();
+    public int[,] matrizLogica = null;
+
+    public DatosDelJuego() { 
+    
+    }
 
     public void setX(int x) {
         this.x = x;
+        
     }
     
     public void setY(int y)
     {
         this.y = y;
+        
     }
     
     public int getX()
@@ -29,7 +35,8 @@ public class DatosDelJuego : MonoBehaviour
         return this.y;
     }
     
-    public void addListX(List<int> l) {
+    public void addListX(List<int> l)
+    {
         PistasX.Add(l);
     }
     
