@@ -10,10 +10,6 @@ public class DatosDelJuego : MonoBehaviour
     private List<List<int>> PistasY= new List<List<int>>();
     public int[,] matrizLogica;
 
-    public DatosDelJuego() {
-        x = y = 0;
-    }
-
     public void setX(int x) {
         this.x = x;
     }

@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 
 
 public class Sound : MonoBehaviour
-{ 
-    AudioSource fxSound; // Emitir sons
-    public AudioClip backMusic; // Som de fundo
+{
+    public AudioSource fxSound; 
+    public AudioClip backMusic;
+    public Toggle soundOn;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Audio Source responsavel por emitir os sons
         fxSound = GetComponent<AudioSource>();
         fxSound.Play();
     }
@@ -19,10 +21,13 @@ public class Sound : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (!fxSound.isPlaying)
+        if (!fxSound.isPlaying && soundOn.isOn)
         {
             fxSound.Play();
+        }
+        else if (fxSound.isPlaying && !soundOn.isOn)
+        {
+            fxSound.Stop();
         }
     }
 }

@@ -10,16 +10,23 @@ public class Juego : MonoBehaviour
     public Lector lector;
     public DatosDelJuego datos;
     public GridGame grid;
+
     public Thread hiloBackt;
     public Thread hiloPintar;
 
     public InputField field;
     public Toggle animacion;
-    public GameObject text;
+
+    public Button boton;
+    public Button atras;
+
     public GameObject juego;
 
+
     public string path;
+
     public bool animation;
+
 
     void impresionMatriz(int[,] matrizLogica) {
         string res = "";
@@ -50,8 +57,6 @@ public class Juego : MonoBehaviour
     {
         hiloBackt = new Thread(Run);
         hiloBackt.Start();
-       
-
     }
 
     public void Run()
@@ -60,11 +65,12 @@ public class Juego : MonoBehaviour
         backtrackingSolvedAnimated();
         watch.Stop();
         var elapsedMs = watch.ElapsedMilliseconds;
+        string tiempo = elapsedMs.ToString();
+        print(tiempo);
         //ESTO PASA EL TIEMPO MAL, HAY QUE ARREGLARLO PERO ESTOY CANSADA :(
         MainThread.thread.AddJob(() => {
-            text.GetComponent<UnityEngine.UI.Text>().text = elapsedMs.ToString();
+            grid.showTime(tiempo);
         });
-
     }
 
     bool backtrackingSolvedAnimated()
@@ -366,32 +372,25 @@ public class Juego : MonoBehaviour
 
     public void getPath() {
         path = field.text;
-        //print(path);
-        //print("gatito");
-
     }
-   
+
     public void animationOn()
     {
-        if(animacion.isOn)
+        if (animacion.isOn)
             animation = true;
         else
             animation = false;
     }
 
     public void iniciar() {
-
-        Start();
-    }
-
-    void Start()
-    {
         if (path != null && path != "") {
             lector.Leer(path);
             datos = lector.datos;
             datos.rellenaMatrizLogica();
-            grid.setVariables(datos.getX(), datos.getY());
+            grid.setVariables(datos.getX(), datos.getY(), datos.getPistasX(), datos.getPistasY());
+            atras.interactable = false;
             if (animation) {
+                boton.interactable = false;
                 hiloBacktracking();
             }
             else
@@ -401,23 +400,18 @@ public class Juego : MonoBehaviour
                 grid.correctAnswer(datos.getMatrizLogica());
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                text.GetComponent<UnityEngine.UI.Text>().text = elapsedMs.ToString();
+                string tiempo = elapsedMs.ToString();
+                grid.showTime(tiempo);
+                boton.interactable = false;
+                atras.interactable = true;
             }
         }
-        else{
-           
-            EditorUtility.DisplayDialog("Error.", "Path not found, please add one in options section." , "Ok");
-            juego.gameObject.SetActive(false);
+        else {
+
+            EditorUtility.DisplayDialog("Error.", "Path not found, please add one in options section.", "Ok");
+            
         }
-        
-    }
-
-
-    void Update()
-    {
-        
 
     }
 
-    
 }

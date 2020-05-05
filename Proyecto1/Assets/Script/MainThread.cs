@@ -17,7 +17,8 @@ internal class MainThread : MonoBehaviour
     {
         if (cambios.Count > 0)
         {
-            cambios.Dequeue().Invoke();
+            if (!cambios.Equals(null))
+                cambios.Dequeue().Invoke();
         }
     }
 

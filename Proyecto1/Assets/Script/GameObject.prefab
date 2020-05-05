@@ -47,3 +47,4 @@ MonoBehaviour:
     type: 3}
   tiles: {fileID: 3106886975787079569, guid: 190c2a359d8ac59468bd05907f9068bf, type: 3}
   juego: {fileID: 6260338077597031892, guid: 809bfd4954312914bbc23d6b13e33d6f, type: 3}
+  text: {fileID: 7828526174757192283, guid: ccd2153953886ae48bcfe7c522bc6cfd, type: 3}

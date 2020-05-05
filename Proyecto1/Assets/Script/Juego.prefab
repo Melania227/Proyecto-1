@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &719670968921980641
 Transform:
   m_ObjectHideFlags: 0
@@ -47,3 +47,9 @@ MonoBehaviour:
   datos: {fileID: 1188327129056705271, guid: 63f0396edec15d14f82f0ac9b863ee25, type: 3}
   grid: {fileID: 6684111538317905007, guid: 0c2ccb85a519b3f4e819baf79bcffc8b, type: 3}
   field: {fileID: 4556300638371459310, guid: ed741f3b90f548a46b05bdc4cfb037f4, type: 3}
+  animacion: {fileID: 0}
+  boton: {fileID: 0}
+  atras: {fileID: 0}
+  juego: {fileID: 0}
+  path: 
+  animation: 0

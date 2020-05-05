@@ -10,8 +10,14 @@ public class FileBrowser : MonoBehaviour
     public InputField field;
 
     public void OpenExplorer() {
-        Path = EditorUtility.OpenFilePanel("Choose a file.", "", "txt");
-        field.text = Path;
+        if (Path == "" || Path == null)
+        {
+            Path = EditorUtility.OpenFilePanel("Choose a file.", "", "txt");
+            field.text = Path;
+        }
+        else {
+            EditorUtility.DisplayDialog("Hey!", "The path has already been added. To change it, select reset.", "Ok");
+        }
     }
         
 }

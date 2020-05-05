@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 
 public class GridGame : MonoBehaviour
 {
 
-    private float X;
-    private float Y;
+    public float X;
+    public float Y;
 
     private Vector2 tileSize;
 
@@ -21,23 +23,35 @@ public class GridGame : MonoBehaviour
     private int rows;
     private int columns;
 
+    public GameObject juego;
+
     public GameObject FrameLines;
     public GameObject tiles;
 
-    public GameObject juego;
+    public GameObject text;
+    public GameObject clue_X;
+    public GameObject clue_Y;
+
+    private List<List<int>> PistasX = new List<List<int>>();
+    private List<List<int>> PistasY = new List<List<int>>();
+
+    public Button atras;
 
 
-    // Start is called before the first frame update
 
-
-    public void setVariables(int r, int c) {
+    //Definir las variables de la matriz y llamar a las funciones que la dibujan
+    public void setVariables(int r, int c, List<List<int>> x1, List<List<int>> y1) 
+    {
         rows = r;
         columns = c;
+        PistasX = x1;
+        PistasY = y1;
         defineValues();
         paintTiles();
         defineLines();
     }
 
+    //Definir los tamaños
     public void defineValues()
     {
         if (columns > rows)
@@ -61,9 +75,13 @@ public class GridGame : MonoBehaviour
         ObjectList = new GameObject[rows, columns];
     }
 
+    //Pintar las lineas de la matriz
     public void defineLines()
     {
         //Otras lineas
+        float totalX = -inicial + (calculo2 / 2);
+        float totalY = -inicial1 + (calculo1 / 2);
+
         for (int row = 0; row <= rows; row++)
         {
 
@@ -71,6 +89,11 @@ public class GridGame : MonoBehaviour
             obj.transform.localScale = new Vector3(X, 15, 2);
             obj.transform.position = new Vector3(0, inicial1 - (calculo1 * row), 2);
             obj.transform.SetParent(juego.transform);
+
+           /* GameObject obj2 = Instantiate(FrameLines);
+            obj2.transform.localScale = new Vector3(tileSize.x * 2, 15, 2);
+            obj2.transform.position = new Vector3(totalX + (calculo2 * -(float)1.5), inicial1 - (calculo1 * row), 2);
+            obj2.transform.SetParent(juego.transform);*/
         }
         for (int col = 0; col <= columns; col++)
         {
@@ -80,11 +103,15 @@ public class GridGame : MonoBehaviour
             obj.transform.position = new Vector3(inicial - (calculo2 * col), 0, 2);
             obj.transform.SetParent(juego.transform);
 
+           /* GameObject obj2 = Instantiate(FrameLines);
+            obj2.transform.localScale = new Vector3(15, tileSize.y * 2, 2);
+            obj2.transform.position = new Vector3(inicial - (calculo2 * col), -totalY - (calculo1 * -(float)1.5), 0);
+            obj2.transform.SetParent(juego.transform);*/
         }
 
-        Destroy(FrameLines);
     }
 
+    //Pintar los cuadros
     public void paintTiles()
     {
 
@@ -106,9 +133,10 @@ public class GridGame : MonoBehaviour
                 
             }
         }
-
+        clues();
     }
 
+    //Pintar la respuesta correcta
     public void correctAnswer(int[,] answer)
     {
 
@@ -118,39 +146,112 @@ public class GridGame : MonoBehaviour
             {
                 if (answer[j, i] == 1)
                 {
-                    GameObject tileObj = Instantiate(tiles);
-                    tileObj = ObjectList[j, i];
+                    GameObject tileObj = ObjectList[j, i];
                     tileObj.GetComponent<SpriteRenderer>().color =  new Color(38f / 255f, 30f / 255f, 54f / 255f);
                 }
                 else
                 {
-                    GameObject tileObj = Instantiate(tiles);
-                    tileObj = ObjectList[j, i];
+                    GameObject tileObj = ObjectList[j, i];
                     tileObj.GetComponent<SpriteRenderer>().color = Color.white;
                 }
             }
         }
     }
 
+    //Pintar un cuadro
     public void paintTile(int i, int j, int answer)
     {
         if (answer == 1)
         {
-            GameObject tileObj = Instantiate(tiles);
-            tileObj = ObjectList[i, j];
+            GameObject tileObj = ObjectList[i, j];
             tileObj.GetComponent<SpriteRenderer>().color = new Color(38f / 255f, 30f / 255f, 54f / 255f);
+            tileObj.transform.SetParent(juego.transform);
         }
         else if (answer == 2)
         {
-            GameObject tileObj = Instantiate(tiles);
-            tileObj = ObjectList[i, j];
+            GameObject tileObj = ObjectList[i, j];
             tileObj.GetComponent<SpriteRenderer>().color = Color.white;
+            tileObj.transform.SetParent(juego.transform);
         }
         else {
-            GameObject tileObj = Instantiate(tiles);
-            tileObj = ObjectList[i, j];
+            GameObject tileObj = ObjectList[i, j];
             tileObj.GetComponent<SpriteRenderer>().color = new Color(38f / 255f, 30f / 255f, 54f / 255f);
+            tileObj.transform.SetParent(juego.transform);
         }
     
     }
+
+    //Mostrar las pistas
+    public void clues() {
+
+        float totalX = -inicial + (calculo2 / 2);
+        float totalY = -inicial1 + (calculo1 / 2);
+
+        for (int j = 0; j < rows; j++)
+        {
+            
+            
+            //NUMEROS
+            GameObject txtObj = Instantiate(clue_X);
+            txtObj.transform.localScale = new Vector3((float)0.1, (float)0.1);
+            txtObj.transform.position = new Vector3(totalX + (calculo2 * -(float)3.5), -totalY - (calculo1 * j), 0);
+            List<int> listaActual = PistasX[j+1];
+            string actualClue = "";
+            for (int x = 0; x < listaActual.Count; x++) {
+                actualClue += listaActual[x].ToString();
+                if (x != listaActual.Count - 1) {
+                    actualClue += " ";
+                }
+            }
+            txtObj.GetComponent<UnityEngine.UI.Text>().text = (actualClue);
+            txtObj.transform.SetParent(juego.transform);
+
+            /*//Espacios para pistas
+            GameObject tileObj = Instantiate(tiles);
+            tileObj.transform.localScale = new Vector3(tileSize.x * 3, tileSize.y, 0);
+            tileObj.transform.position = new Vector3(totalX + (calculo2 * -(float)1.5), -totalY - (calculo1 * j), 0);
+            tileObj.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 0.3f);
+            tileObj.transform.SetParent(juego.transform);*/
+        }
+        for (int j = 0; j < columns; j++)
+        {
+            
+            //NUMEROS
+            GameObject txtObj = Instantiate(clue_Y);
+            txtObj.transform.localScale = new Vector3((float)0.1, (float)0.1);
+            txtObj.transform.position = new Vector3(totalX + (calculo2 * j), -totalY - (calculo1 * -(float)3), 0);
+            List<int> listaActual = PistasY[j + 1];
+            string actualClue = "";
+            for (int x = 0; x < listaActual.Count; x++)
+            {
+                actualClue += listaActual[x].ToString();
+                if (x != listaActual.Count - 1)
+                {
+                    actualClue += "\n";
+                }
+            }
+            txtObj.GetComponent<UnityEngine.UI.Text>().text = (actualClue);
+            txtObj.transform.SetParent(juego.transform);
+
+            /*//Espacios para pistas
+            GameObject tileObj = Instantiate(tiles);
+            tileObj.transform.localScale = new Vector3(tileSize.x, tileSize.y *3, 0);
+            tileObj.transform.position = new Vector3(totalX + (calculo2 * j), -totalY - (calculo1 * -(float)1.5), 0);
+            tileObj.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 0.3f);
+            tileObj.transform.SetParent(juego.transform);*/
+
+
+        }
+
+    }
+
+    //Muestra el tiempo, activa el botón de reversa
+    public void showTime(string time) 
+    {
+        text.GetComponent<UnityEngine.UI.Text>().text = (time);
+        atras.interactable = true;
+    }
+
+
+
 }
