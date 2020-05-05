@@ -186,12 +186,13 @@ public class GridGame : MonoBehaviour
             //NUMEROS
             GameObject txtObj = Instantiate(clue_X);
             txtObj.transform.localScale = new Vector3((float)0.1, (float)0.1);
-            txtObj.transform.position = new Vector3(totalX + (calculo2 * -(float)3.5), -totalY - (calculo1 * j), 0);
+            txtObj.transform.position = new Vector3(totalX + (calculo2 * -(float)3), -totalY - (calculo1 * j), 0);
             List<int> listaActual = PistasX[j+1];
             string actualClue = "";
             for (int x = 0; x < listaActual.Count; x++) {
                 actualClue += listaActual[x].ToString();
-                if (x != listaActual.Count - 1) {
+                if (x != listaActual.Count - 1)
+                {
                     actualClue += " ";
                 }
             }
@@ -205,7 +206,7 @@ public class GridGame : MonoBehaviour
             //NUMEROS
             GameObject txtObj = Instantiate(clue_Y);
             txtObj.transform.localScale = new Vector3((float)0.1, (float)0.1);
-            txtObj.transform.position = new Vector3(totalX + (calculo2 * j), -totalY - (calculo1 * -(float)3), 0);
+            txtObj.transform.position = new Vector3(totalX + (calculo2 * j), -totalY - (calculo1 * -(float)1.5)+3, 0);
             List<int> listaActual = PistasY[j + 1];
             string actualClue = "";
             for (int x = 0; x < listaActual.Count; x++)
@@ -218,15 +219,6 @@ public class GridGame : MonoBehaviour
             }
             txtObj.GetComponent<UnityEngine.UI.Text>().text = (actualClue);
             txtObj.transform.SetParent(juego.transform);
-
-            /*//Espacios para pistas
-            GameObject tileObj = Instantiate(tiles);
-            tileObj.transform.localScale = new Vector3(tileSize.x, tileSize.y *3, 0);
-            tileObj.transform.position = new Vector3(totalX + (calculo2 * j), -totalY - (calculo1 * -(float)1.5), 0);
-            tileObj.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 0.3f);
-            tileObj.transform.SetParent(juego.transform);*/
-
-
         }
 
     }
