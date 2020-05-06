@@ -186,7 +186,7 @@ public class GridGame : MonoBehaviour
             //NUMEROS
             GameObject txtObj = Instantiate(clue_X);
             txtObj.transform.localScale = new Vector3((float)0.1, (float)0.1);
-            txtObj.transform.position = new Vector3(totalX + (calculo2 * -(float)3), -totalY - (calculo1 * j), 0);
+            txtObj.transform.position = new Vector3(totalX + (calculo2 * -(float)3)-1, -totalY - (calculo1 * j), 0);
             List<int> listaActual = PistasX[j+1];
             string actualClue = "";
             for (int x = 0; x < listaActual.Count; x++) {
@@ -206,7 +206,7 @@ public class GridGame : MonoBehaviour
             //NUMEROS
             GameObject txtObj = Instantiate(clue_Y);
             txtObj.transform.localScale = new Vector3((float)0.1, (float)0.1);
-            txtObj.transform.position = new Vector3(totalX + (calculo2 * j), -totalY - (calculo1 * -(float)1.5)+3, 0);
+            txtObj.transform.position = new Vector3(totalX + (calculo2 * j), -totalY - (calculo1 * -(float)1.5)+ (float)3.5, 0);
             List<int> listaActual = PistasY[j + 1];
             string actualClue = "";
             for (int x = 0; x < listaActual.Count; x++)

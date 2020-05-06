@@ -97,7 +97,7 @@ public class Juego : MonoBehaviour
             if (validarPosicion(porValidar, 2))
             {
                 datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
-                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 1); });
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 2); });
                 if (backtrackingSolvedAnimated())
                 {
                     return true;
@@ -109,7 +109,7 @@ public class Juego : MonoBehaviour
             if (validarPosicion(porValidar, 1))
             {
                 datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
-                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 2); });
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 1); });
                 if (backtrackingSolvedAnimated())
                 {
                     return true;
