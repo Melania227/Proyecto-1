@@ -92,29 +92,57 @@ public class Juego : MonoBehaviour
         porValidar[0] = porValidar[0] - 1;
         porValidar[1] = porValidar[1] - 1;
 
-
-        if (validarPosicion(porValidar, 1))
+        if (datos.getSumaPistas() < ((datos.getX() * datos.getY()) / 2))
         {
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
-            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 1); });
-            if (backtrackingSolvedAnimated())
+            if (validarPosicion(porValidar, 2))
             {
-                return true;
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 1); });
+                if (backtrackingSolvedAnimated())
+                {
+                    return true;
+                }
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
             }
-            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+
+            if (validarPosicion(porValidar, 1))
+            {
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 2); });
+                if (backtrackingSolvedAnimated())
+                {
+                    return true;
+                }
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+            }
         }
-
-        if (validarPosicion(porValidar, 2))
+        else 
         {
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
-            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 2); });
-            if (backtrackingSolvedAnimated())
+            if (validarPosicion(porValidar, 1))
             {
-                return true;
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 1); });
+                if (backtrackingSolvedAnimated())
+                {
+                    return true;
+                }
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
             }
-            MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+
+            if (validarPosicion(porValidar, 2))
+            {
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 2); });
+                if (backtrackingSolvedAnimated())
+                {
+                    return true;
+                }
+                MainThread.thread.AddJob(() => { grid.paintTile(porValidar[0], porValidar[1], 0); });
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+            }
         }
 
         return false;
@@ -131,25 +159,52 @@ public class Juego : MonoBehaviour
         porValidar[0] = porValidar[0] - 1;
         porValidar[1] = porValidar[1] - 1;
 
-
-        if (validarPosicion(porValidar, 1))
+        if (datos.getSumaPistas() < ((datos.getX() * datos.getY()) / 2))
         {
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
-            if (backtrackingSolved())
+            //print("COMENZAMOS POR 2");
+            if (validarPosicion(porValidar, 2))
             {
-                return true;
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
+                if (backtrackingSolved())
+                {
+                    return true;
+                }
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
             }
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+
+            if (validarPosicion(porValidar, 1))
+            {
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
+                if (backtrackingSolved())
+                {
+                    return true;
+                }
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+            }
         }
 
-        if (validarPosicion(porValidar, 2))
+        else 
         {
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
-            if (backtrackingSolved())
+            //print("COMENZAMOS POR 1");
+            if (validarPosicion(porValidar, 1))
             {
-                return true;
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
+                if (backtrackingSolved())
+                {
+                    return true;
+                }
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
             }
-            datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+
+            if (validarPosicion(porValidar, 2))
+            {
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
+                if (backtrackingSolved())
+                {
+                    return true;
+                }
+                datos.setMatrizLogica(porValidar[0], porValidar[1], 0);
+            }
         }
 
         return false;
@@ -163,6 +218,20 @@ public class Juego : MonoBehaviour
     bool validarFilas()
     {
         return true;
+    }
+
+    void sumarPistasFilas() 
+    {
+        int largo = datos.getPistasX().Count;
+        int sumaTotal = 0;
+        for (int i = 0; i<largo; i++) 
+        {
+            for (int j = 0; j < datos.getPistasX()[i].Count; j++)
+            {
+                sumaTotal += datos.getPistasX()[i][j];
+            }
+        }
+        datos.setSumaPistas(sumaTotal);
     }
 
     int[] sigPuntoVacio(int[,] matrizLogica)
@@ -441,14 +510,17 @@ public class Juego : MonoBehaviour
             if (animation)
             {
                 boton.interactable = false;
+                sumarPistasFilas();
                 hiloBacktracking();
             }
             else
             {
                 var watch = System.Diagnostics.Stopwatch.StartNew();
+                sumarPistasFilas();
                 backtrackingSolved();
                 grid.correctAnswer(datos.getMatrizLogica());
                 watch.Stop();
+                impresionMatriz(datos.getMatrizLogica());
                 var elapsedMs = watch.ElapsedMilliseconds;
                 string tiempo = elapsedMs.ToString();
                 grid.showTime(tiempo);

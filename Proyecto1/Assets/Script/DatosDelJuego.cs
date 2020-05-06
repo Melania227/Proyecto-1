@@ -6,6 +6,7 @@ public class DatosDelJuego : MonoBehaviour
 {
     public int x=0;
     public int y=0;
+    public int sumaPistas = 0;
     public List<List<int>> PistasX = new List<List<int>>();
     public List<List<int>> PistasY = new List<List<int>>();
     public int[,] matrizLogica = null;
@@ -34,7 +35,17 @@ public class DatosDelJuego : MonoBehaviour
     {
         return this.y;
     }
-    
+
+    public void setSumaPistas(int s)
+    {
+        this.sumaPistas = s;
+    }
+
+    public int getSumaPistas() 
+    {
+        return this.sumaPistas;
+    }
+
     public void addListX(List<int> l)
     {
         PistasX.Add(l);
