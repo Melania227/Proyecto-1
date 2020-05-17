@@ -167,7 +167,7 @@ public class GridGame : MonoBehaviour
         }
         else {
             GameObject tileObj = ObjectList[i, j];
-            tileObj.GetComponent<SpriteRenderer>().color = new Color(38f / 255f, 30f / 255f, 54f / 255f);
+            tileObj.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.4f, 0.6f, 0.3f);
             tileObj.transform.SetParent(juego.transform);
         }
     
