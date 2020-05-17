@@ -74,7 +74,6 @@ public class Juego : MonoBehaviour
         var elapsedMs = watch.ElapsedMilliseconds;
         string tiempo = elapsedMs.ToString();
         print(tiempo);
-        //ESTO PASA EL TIEMPO MAL, HAY QUE ARREGLARLO PERO ESTOY CANSADA :(
         MainThread.thread.AddJob(() =>
         {
             grid.showTime(tiempo);
@@ -86,7 +85,7 @@ public class Juego : MonoBehaviour
         int[] porValidar = sigPuntoVacio(datos.getMatrizLogica());
         if (porValidar[0] == 0 && porValidar[1] == 0)
         {
-            return true; //validarColumnas() && validarFilas();
+            return true;
         }
 
         porValidar[0] = porValidar[0] - 1;
@@ -153,7 +152,7 @@ public class Juego : MonoBehaviour
         int[] porValidar = sigPuntoVacio(datos.getMatrizLogica());
         if (porValidar[0] == 0 && porValidar[1] == 0)
         {
-            return true; //validarColumnas() && validarFilas();
+            return true; 
         }
 
         porValidar[0] = porValidar[0] - 1;
@@ -161,7 +160,6 @@ public class Juego : MonoBehaviour
 
         if (datos.getSumaPistas() < ((datos.getX() * datos.getY()) / 2))
         {
-            //print("COMENZAMOS POR 2");
             if (validarPosicion(porValidar, 2))
             {
                 datos.setMatrizLogica(porValidar[0], porValidar[1], 2);
@@ -185,7 +183,6 @@ public class Juego : MonoBehaviour
 
         else 
         {
-            //print("COMENZAMOS POR 1");
             if (validarPosicion(porValidar, 1))
             {
                 datos.setMatrizLogica(porValidar[0], porValidar[1], 1);
@@ -243,8 +240,8 @@ public class Juego : MonoBehaviour
             {
                 if (matrizLogica[i, j] == 0)
                 {
-                    puntoAValidar[0] = i + 1;//x
-                    puntoAValidar[1] = j + 1;//y
+                    puntoAValidar[0] = i + 1;
+                    puntoAValidar[1] = j + 1;
                     return puntoAValidar;
                 }
             }
@@ -267,24 +264,19 @@ public class Juego : MonoBehaviour
 
         if (datos.getPistasX()[filaAct + 1].Count == 0 || datos.getPistasY()[columnaAct + 1].Count == 0)
         {
-            //print("AQUI WE");
             return false;
         }
 
         if (datos.getPistasX()[filaAct + 1][0] == datos.getY() || datos.getPistasY()[columnaAct + 1][0] == datos.getX())
         {
-            //print("AQUI PUTOS");
             return true;
         }
 
-        //print("HOLA PPUTOS CBRIJNCAENOEQ: " + gruposTotales(fila, datos.getPistasX()[filaAct + 1].Count) + datos.getPistasX()[filaAct + 1].Count);
         if (gruposTotales(fila, datos.getPistasX()[filaAct + 1].Count) > datos.getPistasX()[filaAct + 1].Count || gruposTotales(columna, datos.getPistasY()[columnaAct + 1].Count) > datos.getPistasY()[columnaAct + 1].Count)
         {
-            //print("AQUI MAMAVERGAS");
             return false;
         }
 
-        //imprimirPistas(datos.getPistasX()[filaAct+1], datos.getPistasY()[columnaAct+1]);
         if (validarLineas(columna, datos.getPistasY()[columnaAct + 1]) && validarLineas(fila, datos.getPistasX()[filaAct + 1]))
         {
             return true;
@@ -302,12 +294,10 @@ public class Juego : MonoBehaviour
         {
             hola += " " + pistasC[i];
         }
-        //print("LAS PISTAS DE FILA SON:" + hola);
         for (int j = 0; j < pistasF.Count; j++)
         {
             hola2 += " " + pistasF[j];
         }
-        //print("LAS PISTAS DE COLUMNA SON:" + hola2);
     }
 
     bool validarLineasPa2(int[] linea, List<int> pistas)
@@ -364,12 +354,10 @@ public class Juego : MonoBehaviour
         {
             if (gruposMarcadosV[i] > pistas[i])
             {
-                //print("AY");
                 return false;
             }
             if (lineaCompleta(linea, pistas) && gruposMarcadosV[i] != pistas[i])
             {
-                //print("WE");
                 return false;
             }
 
@@ -413,7 +401,6 @@ public class Juego : MonoBehaviour
         }
         for (int i = 0; i < linea.Length; i++)
         {
-            //print("LISTA: " + gruposFinales[pos]); 
             if (linea[i] == 1)
             {
                 contador += 1;
